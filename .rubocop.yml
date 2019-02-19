@@ -1,0 +1,34 @@
+# This file strictly follows the rules defined in the Ruby style guide:
+# http://shopify.github.io/ruby-style-guide/
+# Before updating anything please sync-up with #ruby-style-guide on Slack.
+inherit_from:
+  - http://shopify.github.io/ruby-style-guide/rubocop.yml
+
+AllCops:
+  DisplayCopNames: true
+  TargetRubyVersion: 2.6.1
+
+Metrics/LineLength:
+  Max: 120
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Style/EmptyLinesAroundMethodBody:
+  Enabled: true
+
+Layout/AlignHash:
+  EnforcedColonStyle: table
+  EnforcedHashRocketStyle: table
+
+Style/MethodCallWithArgsParentheses:
+  Exclude:
+    - Gemfile
