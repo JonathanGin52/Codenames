@@ -22,7 +22,7 @@ Style/TrailingCommaInHashLiteral:
 Style/FrozenStringLiteralComment:
   Enabled: false
 
-Style/EmptyLinesAroundMethodBody:
+Layout/EmptyLinesAroundMethodBody:
   Enabled: true
 
 Layout/AlignHash:
