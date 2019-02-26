@@ -1,6 +1,12 @@
 class Board
   # Path is relative to where the program is run
   WORD_FILE = "resources/codename_words"
+  # Width and height of board
+  DIMENSION = 5
+  # Number of newlines between rows
+  PADDING = 2
+  # Width of each column is longest word + SPACING
+  SPACING = 2
 
   attr_reader :board
 
@@ -8,31 +14,18 @@ class Board
     seed ||= Random.new_seed
     @rng = Random.new(seed)
     @board = generate_board
-    @width = @board.flatten.max_by(&:length).length + 2
+    @width = @board.flatten.max_by(&:length).length + SPACING
   end
 
   def generate_board
-    words.sample(25, random: @rng).each_slice(5).to_a
+    words.sample(DIMENSION**2, random: @rng).each_slice(DIMENSION).to_a
   end
 
   def words
-    return @words unless @words.nil?
-    @words = []
-    File.open(WORD_FILE, "r") do |file|
-      file.each_line do |word|
-        @words << word.chomp
-      end
-    end
-    @words
+    @words ||= File.readlines(WORD_FILE).map(&:chomp)
   end
 
   def to_s
-    output = ""
-    @board.each { |row| output += "#{row.map { |word| word.rjust(@width) }.join}\n" }
-    #aoeuaeua
-    output
+    @board.map { |row| row.map { |word| word.rjust(@width) }.join }.join("\n" * PADDING)
   end
 end
-
-b = Board.new
-puts b
