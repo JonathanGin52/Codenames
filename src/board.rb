@@ -9,6 +9,13 @@ class Board
   SPACING = 5
   # Number of agents (not including the additional agent for the team that goes first)
   AGENTS = 8
+  # Hash of roles and their associated colour
+  COLOUR_TABLE = {
+    assassin:  :light_black,
+    bystander: :white,
+    team_1:    :blue,
+    team_2:    :red,
+  }
 
   attr_reader :board, :agents
 
@@ -28,9 +35,17 @@ class Board
   end
 
   def to_s
+    print_board do |word, row_index, col_index|
+      "#{(row_index * DIMENSION + col_index).to_s.rjust(2)}. #{word}".ljust(@width)
+    end
+  end
+
+  protected
+
+  def print_board
     board.map.with_index do |row, row_index|
       row.map.with_index(1) do |word, col_index|
-        "#{(row_index * DIMENSION + col_index).to_s.rjust(2)}. #{word}".ljust(@width)
+        yield(word, row_index, col_index)
       end.join
     end.join("\n" * PADDING)
   end
