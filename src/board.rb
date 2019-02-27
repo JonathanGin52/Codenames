@@ -10,8 +10,8 @@ class Board
   # Number of agents (not including the additional agent for the team that goes first)
   AGENTS = 8
   # Hash of roles and their associated colour
-  COLOUR_TABLE = {
-    assassin:  :light_black,
+  ROLES = {
+    assassin:  :yellow,
     bystander: :white,
     team_1:    :blue,
     team_2:    :red,
@@ -31,13 +31,15 @@ class Board
     @words = load_words
     @board = generate_board
     @agents = generate_agents
-    @width = board.flatten.max_by(&:length).length + SPACING
+    # Width of the longest word + SPACING
+    @word_width = board.flatten.max_by(&:length).length + SPACING
+    # Number of digits (ex: a 5 x 5 board's longest digit is a 2 digit number)
+    @num_width = Math.log10(DIMENSION**2).to_i + 1
   end
 
+  # This is whack, need some kind of if block_given? in print_board
   def to_s
-    print_board do |word, row_index, col_index|
-      "#{(row_index * DIMENSION + col_index).to_s.rjust(2)}. #{word}".ljust(@width)
-    end
+    print_board { |word| word }
   end
 
   protected
@@ -45,7 +47,8 @@ class Board
   def print_board
     board.map.with_index do |row, row_index|
       row.map.with_index(1) do |word, col_index|
-        yield(word, row_index, col_index)
+        index = row_index * DIMENSION + col_index
+        "#{"#{index.to_s.rjust(@num_width)}.".light_black} #{yield(word.ljust(@word_width), index)}"
       end.join
     end.join("\n" * PADDING)
   end
