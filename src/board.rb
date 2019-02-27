@@ -9,13 +9,6 @@ class Board
   SPACING = 5
   # Number of agents (not including the additional agent for the team that goes first)
   AGENTS = 8
-  # Roles hash
-  ROLES = {
-    assassin:  -1,
-    bystander: 0,
-    team_1:    1,
-    team_2:    2,
-  }
 
   attr_reader :board, :agents
 
@@ -45,23 +38,23 @@ class Board
   private
 
   def generate_board
-    @words.sample(DIMENSION**2, random: @rng).each_slice(DIMENSION).to_a
+    @words.sample(DIMENSION**2, random: @rng).map(&:chomp).each_slice(DIMENSION).to_a
   end
 
   def generate_agents
     # Create a hash, whose default value is bystander
-    agents = Hash.new(ROLES[:bystander])
+    agents = Hash.new(:bystander)
 
     # Number of non bystander cards. 2 * AGENTS, +1 for team that goes first and +1 for assassin
     cards = AGENTS * 2 + 2
 
     [*1..DIMENSION**2].sample(cards, random: @rng).each_with_index do |position, index|
-      agents[Board.convert_input(position)] = index == cards - 1 ? ROLES[:assassin] : index % 2 + 1
+      agents[position] = index == cards - 1 ? :assassin : "team_#{index % 2 + 1}".to_sym
     end
     agents
   end
 
   def load_words
-    File.readlines(WORD_FILE).map(&:chomp)
+    File.readlines(WORD_FILE)
   end
 end
