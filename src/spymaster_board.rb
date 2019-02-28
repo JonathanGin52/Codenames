@@ -1,4 +1,3 @@
-require "colorize"
 require_relative "board"
 
 class SpymasterBoard < Board

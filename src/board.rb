@@ -1,3 +1,5 @@
+require "colorize"
+
 class Board
   # Path is relative to where the program is run
   WORD_FILE = "resources/codename_words"
@@ -48,7 +50,7 @@ class Board
     board.map.with_index do |row, row_index|
       row.map.with_index(1) do |word, col_index|
         index = row_index * DIMENSION + col_index
-        "#{"#{index.to_s.rjust(@num_width)}.".light_black} #{yield(word.ljust(@word_width), index)}"
+        (index.to_s.rjust(@num_width) + '. ').light_black + yield(word.ljust(@word_width), index)
       end.join
     end.join("\n" * PADDING)
   end

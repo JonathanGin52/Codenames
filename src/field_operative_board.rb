@@ -1,8 +1,7 @@
-require "colorize"
 require_relative "board"
 
 class FieldOperativeBoard < Board
-  def initialize
+  def initialize(seed = nil)
     super
     @guessed = []
   end
