@@ -22,7 +22,23 @@ puts "\nYour selection: #{OPTIONS[selection]}"
 case selection
 when 0
 when 1
-  puts "Not yet supported."
+  puts "What is the game seed?"
+  seed = gets.to_i
+  puts "Join game as (a) field operative, or (b) spymaster?"
+  choice = gets
+  if choice == "a"
+    board = FieldOperativeBoard.new(seed)
+  elsif choice == "b"
+    board = SpymasterBoard.new(seed)
+  end
 when 2
   puts "Not yet supported."
+end
+
+def prompt_int
+  yield
+  Integer(gets)
+rescue
+  puts "Please enter a valid integer."
+  retry
 end
