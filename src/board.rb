@@ -37,6 +37,12 @@ class Board
     @word_width = board.flatten.max_by(&:length).length + SPACING
     # Number of digits (ex: a 5 x 5 board's longest digit is a 2 digit number)
     @num_width = Math.log10(DIMENSION**2).to_i + 1
+
+    @guessed = []
+  end
+
+  def guess(guess)
+    @guessed << guess
   end
 
   # This is whack, need some kind of if block_given? in print_board
